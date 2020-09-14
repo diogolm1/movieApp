@@ -1,12 +1,10 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get_it/get_it.dart';
-import 'package:intl/intl.dart';
-import 'package:movie_app/helpers/format_helper.dart';
 import 'package:movie_app/models/apiConfiguration.dart';
 import 'package:movie_app/models/movie_details.dart';
 import 'package:movie_app/repositories/movieRepository.dart';
+import 'package:movie_app/widgets/movieDetails/tabs_section.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class MovieDetailsPage extends StatefulWidget {
@@ -20,15 +18,13 @@ class MovieDetailsPage extends StatefulWidget {
 }
 
 class _MovieDetailsState extends State<MovieDetailsPage> {
-  int _currentImage = 0;
-
   YoutubePlayerController _controller = YoutubePlayerController(
-    initialVideoId: 'iLnmTe5Q2Qw',
-    flags: YoutubePlayerFlags(
-      autoPlay: true,
-      mute: true,
-    ),
-  );
+      initialVideoId: '',
+      flags: YoutubePlayerFlags(
+        autoPlay: false,
+        mute: true,
+      ));
+  List<String> videosIds;
 
   @override
   Widget build(BuildContext context) {
@@ -37,6 +33,8 @@ class _MovieDetailsState extends State<MovieDetailsPage> {
         child: YoutubePlayerBuilder(
           player: YoutubePlayer(
             controller: _controller,
+            onReady: () => videosIds.length > 0 ? _controller.cue(videosIds.first) : null,
+            thumbnail: Container(),
           ),
           builder: (context, player) {
             return Scaffold(
@@ -63,6 +61,7 @@ class _MovieDetailsState extends State<MovieDetailsPage> {
                         } else {
                           MovieDetails movieDetails = snapshot.data;
                           List<String> imagePaths = movieDetails.getImagePaths();
+                          videosIds = movieDetails.videos.map((e) => e.key).toList();
                           return Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Column(
@@ -76,13 +75,11 @@ class _MovieDetailsState extends State<MovieDetailsPage> {
                                 ),
                                 CarouselSlider(
                                   options: CarouselOptions(
-                                      viewportFraction: 1.0,
-                                      enlargeCenterPage: false,
-                                      enableInfiniteScroll: true,
-                                      autoPlay: true,
-                                      onPageChanged: (index, reason) {
-                                        _currentImage = index;
-                                      }),
+                                    viewportFraction: 1.0,
+                                    enlargeCenterPage: false,
+                                    enableInfiniteScroll: true,
+                                    autoPlay: true,
+                                  ),
                                   items: List.from(imagePaths)
                                       .map((e) => Image.network(
                                             GetIt.I<ApiConfiguration>().secureBaseUrl + "w500" + e,
@@ -99,7 +96,9 @@ class _MovieDetailsState extends State<MovieDetailsPage> {
                                     indicatorSize: TabBarIndicatorSize.label,
                                     indicatorColor: Colors.red,
                                     indicator: BoxDecoration(
-                                        borderRadius: BorderRadius.all(Radius.circular(10)), color: Colors.white),
+                                        borderRadius: BorderRadius.only(
+                                            topLeft: Radius.circular(10), topRight: Radius.circular(10)),
+                                        color: Colors.white),
                                     tabs: [
                                       Tab(
                                         child: Container(
@@ -124,56 +123,11 @@ class _MovieDetailsState extends State<MovieDetailsPage> {
                                     ],
                                   ),
                                 ),
-                                Expanded(
-                                  child: Container(
-                                    margin: EdgeInsets.only(top: 15),
-                                    child: TabBarView(
-                                      children: [
-                                        Text(
-                                          movieDetails.overview,
-                                          style: TextStyle(fontSize: 16),
-                                        ),
-                                        Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            Container(
-                                                margin: EdgeInsets.only(bottom: 10),
-                                                child: Row(
-                                                  children: [
-                                                    Text(
-                                                      "Lançamento: ",
-                                                      style: TextStyle(fontSize: 19, fontWeight: FontWeight.w600),
-                                                    ),
-                                                    Text(DateFormat('dd/MM/yyyy').format(movieDetails.releaseDate),
-                                                        style: TextStyle(fontSize: 19, fontWeight: FontWeight.w400))
-                                                  ],
-                                                )),
-                                            Container(
-                                                margin: EdgeInsets.only(bottom: 10),
-                                                child: Row(
-                                                  children: [
-                                                    Text("Orçamento: ",
-                                                        style: TextStyle(fontSize: 19, fontWeight: FontWeight.w600)),
-                                                    Text(FormatHelper.formatMovieValues(movieDetails.budget),
-                                                        style: TextStyle(fontSize: 19, fontWeight: FontWeight.w400))
-                                                  ],
-                                                )),
-                                            Row(
-                                              children: [
-                                                Text("Receita: ",
-                                                    style: TextStyle(fontSize: 19, fontWeight: FontWeight.w600)),
-                                                Text(FormatHelper.formatMovieValues(movieDetails.revenue),
-                                                    style: TextStyle(fontSize: 19, fontWeight: FontWeight.w400))
-                                              ],
-                                            )
-                                          ],
-                                        ),
-                                        Container(
-                                          child: player,
-                                        )
-                                      ],
-                                    ),
-                                  ),
+                                TabsSection(
+                                  movieDetails: movieDetails,
+                                  youtubePlayer: player,
+                                  ytController: _controller,
+                                  videosIds: videosIds,
                                 )
                               ],
                             ),

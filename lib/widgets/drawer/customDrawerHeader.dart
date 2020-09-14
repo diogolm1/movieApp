@@ -14,13 +14,13 @@ class CustomDrawerHeader extends StatelessWidget {
             color: Colors.white,
             size: 35,
           ),
-          Container(
-            margin: EdgeInsets.only(left: 10),
-            child: Expanded(
+          Expanded(
+            child: Container(
+              margin: EdgeInsets.only(left: 10),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [Text("Clique aqui para"), Text("fazer login ou criar sua conta")],
+                children: [Text("Clique aqui para"), Text("fazer login ou criar sua conta.")],
               ),
             ),
           )

@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 import 'package:movie_app/stores/page_store.dart';
+import 'package:movie_app/views/movie_search_page.dart';
+import 'package:movie_app/views/popular_movies_page.dart';
 import 'package:movie_app/views/trendingPage.dart';
-import 'package:movie_app/widgets/customDrawer.dart';
+import 'package:movie_app/widgets/drawer/customDrawer.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -33,9 +35,8 @@ class _HomePageState extends State<HomePage> {
           physics: NeverScrollableScrollPhysics(),
           children: [
             TrendingPage(),
-            Container(
-              color: Colors.green,
-            ),
+            PopularMoviesPage(),
+            MovieSearchPage(),
             Container(
               color: Colors.yellow,
             )

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:movie_app/stores/page_store.dart';
-import 'package:movie_app/widgets/pageTile.dart';
+import 'package:movie_app/widgets/drawer/pageTile.dart';
 
 class PageSection extends StatelessWidget {
   @override
@@ -18,19 +18,26 @@ class PageSection extends StatelessWidget {
             },
             highlighted: pageStore.page == 0),
         PageTile(
-            label: "Filmes",
-            iconData: Icons.movie,
+            label: "Populares",
+            iconData: Icons.star,
             onTap: () {
               pageStore.setPage(1);
             },
             highlighted: pageStore.page == 1),
         PageTile(
-            label: "Séries",
-            iconData: Icons.live_tv,
+            label: "Filmes",
+            iconData: Icons.movie,
             onTap: () {
               pageStore.setPage(2);
             },
-            highlighted: pageStore.page == 2)
+            highlighted: pageStore.page == 2),
+        PageTile(
+            label: "Séries",
+            iconData: Icons.live_tv,
+            onTap: () {
+              pageStore.setPage(3);
+            },
+            highlighted: pageStore.page == 3)
       ],
     );
   }
