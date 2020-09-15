@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_search_bar/flutter_search_bar.dart';
-import 'package:mobx/mobx.dart';
 import 'package:movie_app/repositories/movieRepository.dart';
-import 'package:movie_app/stores/movie_search_store.dart';
-import 'package:movie_app/widgets/movieCard.dart';
+import 'package:movie_app/stores/movie/movie_search_store.dart';
+import 'package:movie_app/widgets/drawer/customDrawer.dart';
+import 'package:movie_app/widgets/customCard.dart';
 
 class MovieSearchPage extends StatefulWidget {
   @override
@@ -36,6 +36,7 @@ class _MovieSearchPageState extends State<MovieSearchPage> {
   Widget build(BuildContext context) {
     return new Scaffold(
       appBar: searchBar.build(context),
+      drawer: CustomDrawer(),
       body: Observer(
         builder: (_) {
           return Container(
@@ -48,8 +49,8 @@ class _MovieSearchPageState extends State<MovieSearchPage> {
                   : ListView.builder(
                       itemCount: movieSearchStore.movies.length,
                       itemBuilder: (context, index) {
-                        return MovieCard(
-                          movie: movieSearchStore.movies[index],
+                        return CustomCard(
+                          cardInfos: movieSearchStore.movies[index],
                         );
                       }));
         },

@@ -3,14 +3,18 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get_it/get_it.dart';
 import 'package:intl/intl.dart';
 import 'package:movie_app/models/apiConfiguration.dart';
+import 'package:movie_app/models/mainInfos.dart';
 import 'package:movie_app/models/movie.dart';
-import 'package:movie_app/views/movie_details_page.dart';
+import 'package:movie_app/models/series_details.dart';
+import 'package:movie_app/views/movies/movie_details_page.dart';
+import 'package:movie_app/views/series/series_details_page.dart';
 
-class MovieCard extends StatelessWidget {
-  final Movie movie;
+class CustomCard extends StatelessWidget {
+  final MainInfos cardInfos;
   final ApiConfiguration apiConfig = GetIt.I<ApiConfiguration>();
+  final Function onTapFunction;
 
-  MovieCard({Key key, this.movie});
+  CustomCard({Key key, this.cardInfos, this.onTapFunction});
 
   @override
   Widget build(BuildContext context) {
@@ -19,13 +23,23 @@ class MovieCard extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       child: GestureDetector(
         onTap: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (_) => MovieDetailsPage(
-                        movieId: movie.id,
-                        title: movie.title,
-                      )));
+          if (cardInfos.runtimeType == Movie().runtimeType) {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (_) => MovieDetailsPage(
+                          movieId: cardInfos.id,
+                          title: cardInfos.title,
+                        )));
+          } else {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (_) => SeriesDetailsPage(
+                          serieId: cardInfos.id,
+                          title: cardInfos.title,
+                        )));
+          }
         },
         child: Card(
           elevation: 5.0,
@@ -35,7 +49,7 @@ class MovieCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Image.network(
-                  apiConfig.secureBaseUrl + "w500" + movie.posterPath,
+                  apiConfig.secureBaseUrl + "w500" + cardInfos.posterPath,
                   width: 100,
                 ),
                 Expanded(
@@ -47,14 +61,14 @@ class MovieCard extends StatelessWidget {
                       children: [
                         Container(
                           child: Text(
-                            movie.title,
+                            cardInfos.title,
                             style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
                           ),
                         ),
                         Container(
                           margin: const EdgeInsets.only(top: 10),
                           child: Text(
-                            movie.overview,
+                            cardInfos.overview,
                             textAlign: TextAlign.start,
                             maxLines: 3,
                             overflow: TextOverflow.ellipsis,
@@ -70,7 +84,7 @@ class MovieCard extends StatelessWidget {
                               ),
                               Container(
                                   margin: const EdgeInsets.only(left: 5),
-                                  child: Text(DateFormat('dd/MM/yyyy').format(movie.releaseDate)))
+                                  child: Text(DateFormat('dd/MM/yyyy').format(cardInfos.releaseDate)))
                             ],
                           ),
                         ),
@@ -80,16 +94,16 @@ class MovieCard extends StatelessWidget {
                             child: Padding(
                               padding: const EdgeInsets.all(4.0),
                               child: Text(
-                                movie.voteAverage.toString(),
+                                cardInfos.voteAverage.toString(),
                                 style: TextStyle(color: Colors.white),
                               ),
                             ),
                           ),
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(3.0),
-                              color: movie.voteAverage < 4.0
+                              color: cardInfos.voteAverage < 4.0
                                   ? Colors.red[300]
-                                  : movie.voteAverage < 8.0 ? Colors.yellow[800] : Colors.green[300]),
+                                  : cardInfos.voteAverage < 8.0 ? Colors.yellow[800] : Colors.green[300]),
                         )
                       ],
                     ),

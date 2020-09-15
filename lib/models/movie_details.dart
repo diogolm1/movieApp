@@ -61,8 +61,8 @@ class MovieDetails {
   List<String> getImagePaths() {
     List<String> paths = List<String>();
     paths..add(this.posterPath)..add(this.backdropPath);
-    paths.addAll(this.posters.map((e) => e.filePath));
+    paths.addAll(this.posters.map((e) => e.filePath).toList());
     paths.addAll(this.backdrops.map((e) => e.filePath));
-    return paths.toSet().toList();
+    return paths.where((element) => element != null).toSet().toList();
   }
 }

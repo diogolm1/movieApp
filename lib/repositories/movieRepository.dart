@@ -35,7 +35,6 @@ class MovieRepository {
 
   Future<List<Movie>> getPopularMovies() async {
     var client = http.Client();
-    var apiConfig = GetIt.I<ApiConfiguration>();
     var movies = await client.get(
         'https://api.themoviedb.org/3/movie/popular?api_key=${GetIt.I<ApiConfiguration>().apiKey}&language=pt-BR&page=1&region=BR');
 
@@ -47,7 +46,6 @@ class MovieRepository {
   Future<List<Movie>> searchMovie(String name) async {
     name = name.replaceAll(" ", "%20");
     var client = http.Client();
-    var apiConfig = GetIt.I<ApiConfiguration>();
     var movies = await client.get(
         'https://api.themoviedb.org/3/search/movie?api_key=${GetIt.I<ApiConfiguration>().apiKey}&language=pt-BR&query=$name&page=1&include_adult=false&region=BR');
 

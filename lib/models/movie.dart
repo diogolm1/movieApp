@@ -1,4 +1,6 @@
-class Movie {
+import 'package:movie_app/models/mainInfos.dart';
+
+class Movie extends MainInfos {
   int id;
   String title;
   String backdropPath;
@@ -7,18 +9,18 @@ class Movie {
   DateTime releaseDate;
   double voteAverage;
 
-  Movie(this.id, this.title, this.backdropPath, this.overview, this.posterPath, this.releaseDate, this.voteAverage);
+  Movie({this.id, this.title, this.backdropPath, this.overview, this.posterPath, this.releaseDate, this.voteAverage});
 
   factory Movie.fromJson(dynamic json) {
     try {
       return Movie(
-          json['id'] as int,
-          json['title'] as String,
-          json['backdrop_path'] as String,
-          json['overview'] as String,
-          json['poster_path'] as String,
-          DateTime.parse(json['release_date']),
-          json['vote_average'].toDouble() as double);
+          id: json['id'] as int,
+          title: json['title'] as String,
+          backdropPath: json['backdrop_path'] as String,
+          overview: json['overview'] as String,
+          posterPath: json['poster_path'] as String,
+          releaseDate: DateTime.parse(json['release_date']),
+          voteAverage: json['vote_average'].toDouble() as double);
     } catch (e) {
       return null;
     }

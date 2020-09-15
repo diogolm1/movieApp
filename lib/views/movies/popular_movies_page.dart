@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:movie_app/repositories/movieRepository.dart';
-import 'package:movie_app/widgets/movieCard.dart';
+import 'package:movie_app/widgets/customCard.dart';
 
-class TrendingPage extends StatelessWidget {
+class PopularMoviesPage extends StatefulWidget {
+  @override
+  _PopularMoviesPageState createState() => _PopularMoviesPageState();
+}
+
+class _PopularMoviesPageState extends State<PopularMoviesPage> {
   @override
   Widget build(BuildContext context) {
     Widget _buildBodyBack() => Container(
@@ -22,12 +27,12 @@ class TrendingPage extends StatelessWidget {
               elevation: 0,
               backgroundColor: Colors.red,
               flexibleSpace: FlexibleSpaceBar(
-                title: const Text("Tendências"),
+                title: const Text("Populares"),
                 centerTitle: true,
               ),
             ),
             FutureBuilder(
-              future: MovieRepository.instance.getTrendingMovies(),
+              future: MovieRepository.instance.getPopularMovies(),
               builder: (_, snapshot) {
                 switch (snapshot.connectionState) {
                   case ConnectionState.none:
@@ -48,8 +53,8 @@ class TrendingPage extends StatelessWidget {
                       );
                     } else {
                       return SliverList(
-                        delegate: SliverChildListDelegate(List<MovieCard>.from(snapshot.data.map((e) => MovieCard(
-                              movie: e,
+                        delegate: SliverChildListDelegate(List<CustomCard>.from(snapshot.data.map((e) => CustomCard(
+                              cardInfos: e,
                             )))),
                       );
                     }

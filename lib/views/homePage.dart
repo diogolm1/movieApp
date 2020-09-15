@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 import 'package:movie_app/stores/page_store.dart';
-import 'package:movie_app/views/movie_search_page.dart';
-import 'package:movie_app/views/popular_movies_page.dart';
-import 'package:movie_app/views/trendingPage.dart';
+import 'package:movie_app/views/movies/movie_search_page.dart';
+import 'package:movie_app/views/movies/popular_movies_page.dart';
+import 'package:movie_app/views/series/series_search_page.dart';
+import 'package:movie_app/views/movies/trendingPage.dart';
 import 'package:movie_app/widgets/drawer/customDrawer.dart';
 
 class HomePage extends StatefulWidget {
@@ -33,14 +34,7 @@ class _HomePageState extends State<HomePage> {
         body: PageView(
           controller: pageController,
           physics: NeverScrollableScrollPhysics(),
-          children: [
-            TrendingPage(),
-            PopularMoviesPage(),
-            MovieSearchPage(),
-            Container(
-              color: Colors.yellow,
-            )
-          ],
+          children: [TrendingPage(), PopularMoviesPage(), MovieSearchPage(), SeriesSearchPage()],
         ));
   }
 }
