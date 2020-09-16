@@ -2,11 +2,9 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:movie_app/models/apiConfiguration.dart';
-import 'package:movie_app/models/movie_details.dart';
 import 'package:movie_app/models/series_details.dart';
-import 'package:movie_app/repositories/movieRepository.dart';
 import 'package:movie_app/repositories/seriesRepository.dart';
-import 'package:movie_app/widgets/movieDetails/tabs_section.dart';
+import 'package:movie_app/widgets/series/series_tabs.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class SeriesDetailsPage extends StatefulWidget {
@@ -72,16 +70,17 @@ class _SeriesDetailsState extends State<SeriesDetailsPage> {
                                   margin: EdgeInsets.only(bottom: 10),
                                   child: Text(
                                     seriesDetails.name,
+                                    textAlign: TextAlign.center,
                                     style: TextStyle(fontSize: 28, fontWeight: FontWeight.w800),
                                   ),
                                 ),
                                 CarouselSlider(
                                   options: CarouselOptions(
-                                    viewportFraction: 1.0,
-                                    enlargeCenterPage: false,
-                                    enableInfiniteScroll: true,
-                                    autoPlay: true,
-                                  ),
+                                      viewportFraction: 1.0,
+                                      enlargeCenterPage: false,
+                                      enableInfiniteScroll: true,
+                                      autoPlay: true,
+                                      height: 250),
                                   items: List.from(imagePaths)
                                       .map((e) => Image.network(
                                             GetIt.I<ApiConfiguration>().secureBaseUrl + "w500" + e,
@@ -125,12 +124,12 @@ class _SeriesDetailsState extends State<SeriesDetailsPage> {
                                     ],
                                   ),
                                 ),
-                                // TabsSection(
-                                //   movieDetails: movieDetails,
-                                //   youtubePlayer: player,
-                                //   ytController: _controller,
-                                //   videosIds: videosIds,
-                                // )
+                                SeriesTabs(
+                                  seriesDetails: seriesDetails,
+                                  youtubePlayer: player,
+                                  ytController: _controller,
+                                  videosIds: videosIds,
+                                )
                               ],
                             ),
                           );
