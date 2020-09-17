@@ -39,7 +39,7 @@ class _TabsSectionState extends State<TabsSection> {
             SingleChildScrollView(
               child: Text(
                 widget.movieDetails.overview,
-                style: TextStyle(fontSize: 16),
+                style: TextStyle(fontSize: 18),
               ),
             ),
             SingleChildScrollView(

@@ -18,8 +18,9 @@ abstract class _SeriesSearchStoreBase with Store {
 
   @action
   setSeries(List<Series> m) {
-    this.series.clear();
-    this.series.addAll(m);
+    series.clear();
+    series.addAll(m);
+    isSearching = false;
   }
 
   @action

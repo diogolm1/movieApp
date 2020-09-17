@@ -33,4 +33,14 @@ class SeriesRepository {
     SeriesDetails seriesDetails = SeriesDetails.fromJson(json);
     return seriesDetails;
   }
+
+  Future<List<Series>> getPopularSeries() async {
+    var client = http.Client();
+    var series = await client.get(
+        'https://api.themoviedb.org/3/tv/popular?api_key=${GetIt.I<ApiConfiguration>().apiKey}&language=pt-BR&page=1');
+
+    var seriesJson = jsonDecode(series.body)['results'] as List;
+    List<Series> seriesList = seriesJson.map((e) => Series.fromJson(e)).toList();
+    return seriesList;
+  }
 }

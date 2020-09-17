@@ -29,12 +29,17 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        drawer: CustomDrawer(),
-        body: PageView(
-          controller: pageController,
-          physics: NeverScrollableScrollPhysics(),
-          children: [TrendingPage(), PopularMoviesPage(), MovieSearchPage(), SeriesSearchPage()],
-        ));
+    return Container(
+      color: Theme.of(context).primaryColorDark,
+      child: SafeArea(
+        child: Scaffold(
+            drawer: CustomDrawer(),
+            body: PageView(
+              controller: pageController,
+              physics: NeverScrollableScrollPhysics(),
+              children: [TrendingPage(), MovieSearchPage(), SeriesSearchPage()],
+            )),
+      ),
+    );
   }
 }

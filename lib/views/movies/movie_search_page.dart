@@ -15,6 +15,12 @@ class _MovieSearchPageState extends State<MovieSearchPage> {
   SearchBar searchBar;
   MovieSearchStore movieSearchStore = new MovieSearchStore();
 
+  @override
+  void initState() {
+    super.initState();
+    getPopularMovies();
+  }
+
   AppBar buildAppBar(BuildContext context) {
     return new AppBar(
         title: Observer(builder: (_) => Text(movieSearchStore.title)),
@@ -28,11 +34,20 @@ class _MovieSearchPageState extends State<MovieSearchPage> {
   }
 
   _searchMovie(String text) async {
+    if (text.isEmpty) {
+      movieSearchStore.setTitle("Pesquise um filme");
+      return getPopularMovies();
+    }
     movieSearchStore.setTitle(text);
+    movieSearchStore.toggleSearch();
     var movies = await MovieRepository.instance.searchMovie(text);
-    movieSearchStore.toggleSearch();
     movieSearchStore.setMovies(movies);
+  }
+
+  Future<void> getPopularMovies() async {
     movieSearchStore.toggleSearch();
+    var movies = await MovieRepository.instance.getPopularMovies();
+    movieSearchStore.setMovies(movies);
   }
 
   @override
@@ -56,7 +71,7 @@ class _MovieSearchPageState extends State<MovieSearchPage> {
                   child: movieSearchStore.isSearching
                       ? Center(
                           child: CircularProgressIndicator(
-                            valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),
+                            valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                           ),
                         )
                       : ListView.builder(

@@ -24,7 +24,7 @@ class Series extends MainInfos {
           json['name'] as String,
           json['original_name'] as String,
           json['overview'] as String,
-          json['popularity'] as double,
+          json['popularity'].toDouble() as double,
           json['poster_path'] as String,
           json['vote_average'].toDouble() as double,
           json['vote_count'] as int);

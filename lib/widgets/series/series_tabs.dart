@@ -40,7 +40,7 @@ class _SeriesTabsState extends State<SeriesTabs> {
             SingleChildScrollView(
               child: Text(
                 widget.seriesDetails.overview,
-                style: TextStyle(fontSize: 16),
+                style: TextStyle(fontSize: 18),
               ),
             ),
             SingleChildScrollView(

@@ -20,6 +20,7 @@ abstract class _MovieSearchStoreBase with Store {
   setMovies(List<Movie> m) {
     movies.clear();
     movies.addAll(m);
+    isSearching = false;
   }
 
   @action

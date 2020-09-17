@@ -15,6 +15,12 @@ class _SeriesSearchPageState extends State<SeriesSearchPage> {
   SearchBar searchBar;
   SeriesSearchStore seriesSearchStore = new SeriesSearchStore();
 
+  @override
+  void initState() {
+    super.initState();
+    getPopularSeries();
+  }
+
   AppBar buildAppBar(BuildContext context) {
     return new AppBar(
         title: Observer(builder: (_) {
@@ -25,16 +31,29 @@ class _SeriesSearchPageState extends State<SeriesSearchPage> {
   }
 
   _SeriesSearchPageState() {
-    searchBar =
-        new SearchBar(inBar: false, setState: setState, onSubmitted: _searchSeries, buildDefaultAppBar: buildAppBar);
+    searchBar = new SearchBar(
+        inBar: false,
+        setState: setState,
+        onSubmitted: _searchSeries,
+        buildDefaultAppBar: buildAppBar,
+        hintText: "Pesquisar");
   }
 
   _searchSeries(String text) async {
+    if (text.isEmpty) {
+      seriesSearchStore.setTitle("Pesquise uma série");
+      return getPopularSeries();
+    }
     seriesSearchStore.setTitle(text);
+    seriesSearchStore.toggleSearch();
     var series = await SeriesRepository.instance.searchSeries(text);
-    seriesSearchStore.toggleSearch();
     seriesSearchStore.setSeries(series);
+  }
+
+  Future<void> getPopularSeries() async {
     seriesSearchStore.toggleSearch();
+    var movies = await SeriesRepository.instance.getPopularSeries();
+    seriesSearchStore.setSeries(movies);
   }
 
   @override

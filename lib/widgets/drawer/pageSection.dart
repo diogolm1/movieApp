@@ -18,26 +18,19 @@ class PageSection extends StatelessWidget {
             },
             highlighted: pageStore.page == 0),
         PageTile(
-            label: "Populares",
-            iconData: Icons.star,
+            label: "Filmes",
+            iconData: Icons.movie,
             onTap: () {
               pageStore.setPage(1);
             },
             highlighted: pageStore.page == 1),
         PageTile(
-            label: "Filmes",
-            iconData: Icons.movie,
-            onTap: () {
-              pageStore.setPage(2);
-            },
-            highlighted: pageStore.page == 2),
-        PageTile(
             label: "Séries",
             iconData: Icons.live_tv,
             onTap: () {
-              pageStore.setPage(3);
+              pageStore.setPage(2);
             },
-            highlighted: pageStore.page == 3)
+            highlighted: pageStore.page == 2)
       ],
     );
   }
