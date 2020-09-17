@@ -8,7 +8,9 @@ class TrendingPage extends StatelessWidget {
     Widget _buildBodyBack() => Container(
           decoration: BoxDecoration(
               gradient: LinearGradient(
-                  colors: [Colors.red, Colors.red[200]], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
+                  colors: [Theme.of(context).primaryColorDark, Theme.of(context).primaryColorLight],
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter)),
         );
 
     return Stack(
@@ -20,7 +22,7 @@ class TrendingPage extends StatelessWidget {
               floating: true,
               snap: true,
               elevation: 0,
-              backgroundColor: Colors.red,
+              backgroundColor: Theme.of(context).primaryColorDark,
               flexibleSpace: FlexibleSpaceBar(
                 title: const Text("Tendências"),
                 centerTitle: true,

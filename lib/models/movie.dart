@@ -8,8 +8,17 @@ class Movie extends MainInfos {
   String posterPath;
   DateTime releaseDate;
   double voteAverage;
+  double popularity;
 
-  Movie({this.id, this.title, this.backdropPath, this.overview, this.posterPath, this.releaseDate, this.voteAverage});
+  Movie(
+      {this.id,
+      this.title,
+      this.backdropPath,
+      this.overview,
+      this.posterPath,
+      this.releaseDate,
+      this.voteAverage,
+      this.popularity});
 
   factory Movie.fromJson(dynamic json) {
     try {
@@ -20,7 +29,8 @@ class Movie extends MainInfos {
           overview: json['overview'] as String,
           posterPath: json['poster_path'] as String,
           releaseDate: DateTime.parse(json['release_date']),
-          voteAverage: json['vote_average'].toDouble() as double);
+          voteAverage: json['vote_average'].toDouble(),
+          popularity: json['popularity'].toDouble());
     } catch (e) {
       return null;
     }

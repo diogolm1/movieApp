@@ -66,13 +66,6 @@ class _MovieDetailsState extends State<MovieDetailsPage> {
                             padding: const EdgeInsets.all(8.0),
                             child: Column(
                               children: [
-                                Container(
-                                  margin: EdgeInsets.only(bottom: 10),
-                                  child: Text(
-                                    movieDetails.title,
-                                    style: TextStyle(fontSize: 28, fontWeight: FontWeight.w800),
-                                  ),
-                                ),
                                 CarouselSlider(
                                   options: CarouselOptions(
                                     viewportFraction: 1.0,
@@ -89,12 +82,12 @@ class _MovieDetailsState extends State<MovieDetailsPage> {
                                 ),
                                 Container(
                                   margin: EdgeInsets.only(top: 15),
-                                  decoration: BoxDecoration(color: Colors.red),
+                                  decoration: BoxDecoration(color: Theme.of(context).primaryColor),
                                   child: TabBar(
-                                    labelColor: Colors.redAccent,
+                                    labelColor: Theme.of(context).primaryColor,
                                     unselectedLabelColor: Colors.white,
                                     indicatorSize: TabBarIndicatorSize.label,
-                                    indicatorColor: Colors.red,
+                                    indicatorColor: Theme.of(context).primaryColor,
                                     indicator: BoxDecoration(
                                         borderRadius: BorderRadius.only(
                                             topLeft: Radius.circular(10), topRight: Radius.circular(10)),

@@ -27,10 +27,11 @@ class MyApp extends StatelessWidget {
         title: 'Movie App',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          primarySwatch: Colors.red,
-          visualDensity: VisualDensity.adaptivePlatformDensity,
-          primaryColor: Colors.red,
-        ),
+            visualDensity: VisualDensity.adaptivePlatformDensity,
+            primaryColor: Color.fromARGB(255, 198, 40, 40),
+            primaryColorDark: Color.fromARGB(255, 142, 0, 0),
+            primaryColorLight: Color.fromARGB(255, 255, 95, 82),
+            accentColor: Color.fromARGB(255, 103, 58, 183)),
         home: HomePage());
   }
 }

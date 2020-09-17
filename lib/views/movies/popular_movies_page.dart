@@ -13,7 +13,9 @@ class _PopularMoviesPageState extends State<PopularMoviesPage> {
     Widget _buildBodyBack() => Container(
           decoration: BoxDecoration(
               gradient: LinearGradient(
-                  colors: [Colors.red, Colors.red[200]], begin: Alignment.topCenter, end: Alignment.bottomCenter)),
+                  colors: [Theme.of(context).primaryColorDark, Theme.of(context).primaryColorLight],
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter)),
         );
 
     return Stack(
@@ -25,7 +27,7 @@ class _PopularMoviesPageState extends State<PopularMoviesPage> {
               floating: true,
               snap: true,
               elevation: 0,
-              backgroundColor: Colors.red,
+              backgroundColor: Theme.of(context).primaryColor,
               flexibleSpace: FlexibleSpaceBar(
                 title: const Text("Populares"),
                 centerTitle: true,

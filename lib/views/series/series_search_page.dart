@@ -17,7 +17,11 @@ class _SeriesSearchPageState extends State<SeriesSearchPage> {
 
   AppBar buildAppBar(BuildContext context) {
     return new AppBar(
-        title: new Text('Pesquise uma série'), centerTitle: true, actions: [searchBar.getSearchAction(context)]);
+        title: Observer(builder: (_) {
+          return Text(seriesSearchStore.title);
+        }),
+        centerTitle: true,
+        actions: [searchBar.getSearchAction(context)]);
   }
 
   _SeriesSearchPageState() {
@@ -26,6 +30,7 @@ class _SeriesSearchPageState extends State<SeriesSearchPage> {
   }
 
   _searchSeries(String text) async {
+    seriesSearchStore.setTitle(text);
     var series = await SeriesRepository.instance.searchSeries(text);
     seriesSearchStore.toggleSearch();
     seriesSearchStore.setSeries(series);
@@ -34,26 +39,38 @@ class _SeriesSearchPageState extends State<SeriesSearchPage> {
 
   @override
   Widget build(BuildContext context) {
+    Widget _buildBodyBack() => Container(
+          decoration: BoxDecoration(
+              gradient: LinearGradient(
+                  colors: [Theme.of(context).primaryColorDark, Theme.of(context).primaryColorLight],
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter)),
+        );
     return new Scaffold(
       appBar: searchBar.build(context),
       drawer: CustomDrawer(),
-      body: Observer(
-        builder: (_) {
-          return Container(
-              child: seriesSearchStore.isSearching
-                  ? Center(
-                      child: CircularProgressIndicator(
-                        valueColor: AlwaysStoppedAnimation<Color>(Colors.red),
-                      ),
-                    )
-                  : ListView.builder(
-                      itemCount: seriesSearchStore.series.length,
-                      itemBuilder: (context, index) {
-                        return CustomCard(
-                          cardInfos: seriesSearchStore.series[index],
-                        );
-                      }));
-        },
+      body: Stack(
+        children: [
+          _buildBodyBack(),
+          Observer(
+            builder: (_) {
+              return Container(
+                  child: seriesSearchStore.isSearching
+                      ? Center(
+                          child: CircularProgressIndicator(
+                            valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),
+                          ),
+                        )
+                      : ListView.builder(
+                          itemCount: seriesSearchStore.series.length,
+                          itemBuilder: (context, index) {
+                            return CustomCard(
+                              cardInfos: seriesSearchStore.series[index],
+                            );
+                          }));
+            },
+          )
+        ],
       ),
     );
   }

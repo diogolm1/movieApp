@@ -8,6 +8,9 @@ abstract class _SeriesSearchStoreBase with Store {
   ObservableList<Series> series = ObservableList();
 
   @observable
+  String title = "Pesquise uma série";
+
+  @observable
   bool isSearching = false;
 
   @action
@@ -17,5 +20,10 @@ abstract class _SeriesSearchStoreBase with Store {
   setSeries(List<Series> m) {
     this.series.clear();
     this.series.addAll(m);
+  }
+
+  @action
+  setTitle(String text) {
+    title = text;
   }
 }

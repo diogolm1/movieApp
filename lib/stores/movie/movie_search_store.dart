@@ -8,6 +8,9 @@ abstract class _MovieSearchStoreBase with Store {
   ObservableList<Movie> movies = ObservableList();
 
   @observable
+  String title = "Pesquise um filme";
+
+  @observable
   bool isSearching = false;
 
   @action
@@ -15,7 +18,12 @@ abstract class _MovieSearchStoreBase with Store {
 
   @action
   setMovies(List<Movie> m) {
-    this.movies.clear();
-    this.movies.addAll(m);
+    movies.clear();
+    movies.addAll(m);
+  }
+
+  @action
+  setTitle(String text) {
+    title = text;
   }
 }

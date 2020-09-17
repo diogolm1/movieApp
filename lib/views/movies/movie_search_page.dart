@@ -17,7 +17,9 @@ class _MovieSearchPageState extends State<MovieSearchPage> {
 
   AppBar buildAppBar(BuildContext context) {
     return new AppBar(
-        title: new Text('Pesquise um filme'), centerTitle: true, actions: [searchBar.getSearchAction(context)]);
+        title: Observer(builder: (_) => Text(movieSearchStore.title)),
+        centerTitle: true,
+        actions: [searchBar.getSearchAction(context)]);
   }
 
   _MovieSearchPageState() {
@@ -26,6 +28,7 @@ class _MovieSearchPageState extends State<MovieSearchPage> {
   }
 
   _searchMovie(String text) async {
+    movieSearchStore.setTitle(text);
     var movies = await MovieRepository.instance.searchMovie(text);
     movieSearchStore.toggleSearch();
     movieSearchStore.setMovies(movies);
@@ -34,26 +37,38 @@ class _MovieSearchPageState extends State<MovieSearchPage> {
 
   @override
   Widget build(BuildContext context) {
+    Widget _buildBodyBack() => Container(
+          decoration: BoxDecoration(
+              gradient: LinearGradient(
+                  colors: [Theme.of(context).primaryColorDark, Theme.of(context).primaryColorLight],
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter)),
+        );
     return new Scaffold(
       appBar: searchBar.build(context),
       drawer: CustomDrawer(),
-      body: Observer(
-        builder: (_) {
-          return Container(
-              child: movieSearchStore.isSearching
-                  ? Center(
-                      child: CircularProgressIndicator(
-                        valueColor: AlwaysStoppedAnimation<Color>(Colors.red),
-                      ),
-                    )
-                  : ListView.builder(
-                      itemCount: movieSearchStore.movies.length,
-                      itemBuilder: (context, index) {
-                        return CustomCard(
-                          cardInfos: movieSearchStore.movies[index],
-                        );
-                      }));
-        },
+      body: Stack(
+        children: [
+          _buildBodyBack(),
+          Observer(
+            builder: (_) {
+              return Container(
+                  child: movieSearchStore.isSearching
+                      ? Center(
+                          child: CircularProgressIndicator(
+                            valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),
+                          ),
+                        )
+                      : ListView.builder(
+                          itemCount: movieSearchStore.movies.length,
+                          itemBuilder: (context, index) {
+                            return CustomCard(
+                              cardInfos: movieSearchStore.movies[index],
+                            );
+                          }));
+            },
+          )
+        ],
       ),
     );
   }

@@ -1,3 +1,4 @@
+import 'package:movie_app/models/actor.dart';
 import 'package:movie_app/models/image.dart';
 import 'package:movie_app/models/video.dart';
 
@@ -22,6 +23,7 @@ class SeriesDetails {
   List<Image> backdrops;
   List<Image> posters;
   List<Video> videos;
+  List<Actor> actors;
 
   SeriesDetails(
       this.backdropPath,
@@ -43,7 +45,8 @@ class SeriesDetails {
       this.status,
       this.backdrops,
       this.posters,
-      this.videos);
+      this.videos,
+      this.actors);
 
   factory SeriesDetails.fromJson(dynamic json) {
     return SeriesDetails(
@@ -66,7 +69,8 @@ class SeriesDetails {
         json['status'] as String,
         List.from(json['images']['backdrops']).map((e) => Image.fromJson(e)).toList(),
         List.from(json['images']['posters']).map((e) => Image.fromJson(e)).toList(),
-        List.from(json['videos']['results']).map((e) => Video.fromJson(e)).toList());
+        List.from(json['videos']['results']).map((e) => Video.fromJson(e)).toList(),
+        List.from(json['credits']['cast']).map((e) => Actor.fromJson(e)).toList());
   }
 
   List<String> getImagePaths() {

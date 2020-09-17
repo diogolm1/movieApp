@@ -21,13 +21,14 @@ class SeriesRepository {
 
     var seriesJson = jsonDecode(series.body)['results'] as List;
     List<Series> seriesList = seriesJson.map((e) => Series.fromJson(e)).toList();
-    return seriesList.where((element) => element != null && element.posterPath != null).toList();
+    return seriesList.where((element) => element != null && element.posterPath != null).toList()
+      ..sort((b, a) => a.popularity.compareTo(b.popularity));
   }
 
   Future<SeriesDetails> getSeriesDetails(int serieId) async {
     var client = http.Client();
     var response = await client.get(
-        'https://api.themoviedb.org/3/tv/$serieId?api_key=${GetIt.I<ApiConfiguration>().apiKey}&language=pt-BR&append_to_response=images,videos');
+        'https://api.themoviedb.org/3/tv/$serieId?api_key=${GetIt.I<ApiConfiguration>().apiKey}&language=pt-BR&append_to_response=images,videos,credits');
     var json = jsonDecode(response.body);
     SeriesDetails seriesDetails = SeriesDetails.fromJson(json);
     return seriesDetails;

@@ -15,13 +15,13 @@ class PageTile extends StatelessWidget {
         children: [
           Icon(
             iconData,
-            color: highlighted ? Colors.red : Colors.black54,
+            color: highlighted ? Theme.of(context).primaryColor : Colors.black54,
           ),
           Container(
             margin: EdgeInsets.only(left: 12),
             child: Text(
               label,
-              style: TextStyle(color: highlighted ? Colors.red : Colors.black54),
+              style: TextStyle(color: highlighted ? Theme.of(context).primaryColor : Colors.black54),
             ),
           ),
         ],

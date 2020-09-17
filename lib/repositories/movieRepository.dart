@@ -27,7 +27,7 @@ class MovieRepository {
   Future<MovieDetails> getMovieDetails(int movieId) async {
     var client = http.Client();
     var response = await client.get(
-        'https://api.themoviedb.org/3/movie/${movieId}?api_key=${GetIt.I<ApiConfiguration>().apiKey}&language=pt-BR&region=BR&append_to_response=images,videos&include_image_language=pt,null');
+        'https://api.themoviedb.org/3/movie/${movieId}?api_key=${GetIt.I<ApiConfiguration>().apiKey}&language=pt-BR&region=BR&append_to_response=images,videos,credits&include_image_language=pt,null');
     var json = jsonDecode(response.body);
     MovieDetails movieDetails = MovieDetails.fromJson(json);
     return movieDetails;
@@ -51,6 +51,7 @@ class MovieRepository {
 
     var moviesJson = jsonDecode(movies.body)['results'] as List;
     List<Movie> moviesList = moviesJson.map((e) => Movie.fromJson(e)).toList();
-    return moviesList.where((element) => element != null && element.posterPath != null).toList();
+    return moviesList.where((element) => element != null && element.posterPath != null).toList()
+      ..sort((b, a) => a.popularity.compareTo(b.popularity));
   }
 }

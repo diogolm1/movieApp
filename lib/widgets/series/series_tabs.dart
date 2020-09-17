@@ -1,11 +1,14 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:get_it/get_it.dart';
 import 'package:intl/intl.dart';
 import 'package:movie_app/helpers/format_helper.dart';
+import 'package:movie_app/models/apiConfiguration.dart';
 import 'package:movie_app/models/movie_details.dart';
 import 'package:movie_app/models/series_details.dart';
 import 'package:movie_app/stores/movie/movie_details_store.dart';
+import 'package:movie_app/widgets/actor_card.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class SeriesTabs extends StatefulWidget {
@@ -24,6 +27,11 @@ class _SeriesTabsState extends State<SeriesTabs> {
 
   @override
   Widget build(BuildContext context) {
+    List<String> actorsImagePaths = widget.seriesDetails.actors
+        .where((element) => element.profilePath != null && element.profilePath != "")
+        .map((e) => e.profilePath)
+        .toList();
+    String baseUrl = GetIt.I<ApiConfiguration>().secureBaseUrl;
     return Expanded(
       child: Container(
         margin: EdgeInsets.only(top: 15),
@@ -35,38 +43,60 @@ class _SeriesTabsState extends State<SeriesTabs> {
                 style: TextStyle(fontSize: 16),
               ),
             ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                    margin: EdgeInsets.only(bottom: 10),
+            SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                      margin: EdgeInsets.only(bottom: 10),
+                      child: Row(
+                        children: [
+                          Text(
+                            "Lançamento: ",
+                            style: TextStyle(fontSize: 19, fontWeight: FontWeight.w600),
+                          ),
+                          Text(DateFormat('dd/MM/yyyy').format(widget.seriesDetails.firstAirDate),
+                              style: TextStyle(fontSize: 19, fontWeight: FontWeight.w400))
+                        ],
+                      )),
+                  Container(
+                      margin: EdgeInsets.only(bottom: 10),
+                      child: Row(
+                        children: [
+                          Text("Temporadas: ", style: TextStyle(fontSize: 19, fontWeight: FontWeight.w600)),
+                          Text(widget.seriesDetails.numberOfSeasons.toString(),
+                              style: TextStyle(fontSize: 19, fontWeight: FontWeight.w400))
+                        ],
+                      )),
+                  Container(
                     child: Row(
                       children: [
-                        Text(
-                          "Lançamento: ",
-                          style: TextStyle(fontSize: 19, fontWeight: FontWeight.w600),
+                        Text("Episódios: ", style: TextStyle(fontSize: 19, fontWeight: FontWeight.w600)),
+                        Text(widget.seriesDetails.numberOfEpisodes.toString(),
+                            style: TextStyle(fontSize: 19, fontWeight: FontWeight.w400))
+                      ],
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(top: 10),
+                    child: SizedBox(
+                      height: 195,
+                      child: Container(
+                        child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: actorsImagePaths.length,
+                          itemBuilder: (_, index) => ActorCard(
+                            baseUrl: baseUrl,
+                            character: widget.seriesDetails.actors[index].character,
+                            imagePath: actorsImagePaths[index],
+                            name: widget.seriesDetails.actors[index].name,
+                          ),
                         ),
-                        Text(DateFormat('dd/MM/yyyy').format(widget.seriesDetails.firstAirDate),
-                            style: TextStyle(fontSize: 19, fontWeight: FontWeight.w400))
-                      ],
-                    )),
-                Container(
-                    margin: EdgeInsets.only(bottom: 10),
-                    child: Row(
-                      children: [
-                        Text("Temporadas: ", style: TextStyle(fontSize: 19, fontWeight: FontWeight.w600)),
-                        Text(widget.seriesDetails.numberOfSeasons.toString(),
-                            style: TextStyle(fontSize: 19, fontWeight: FontWeight.w400))
-                      ],
-                    )),
-                Row(
-                  children: [
-                    Text("Episódios: ", style: TextStyle(fontSize: 19, fontWeight: FontWeight.w600)),
-                    Text(widget.seriesDetails.numberOfEpisodes.toString(),
-                        style: TextStyle(fontSize: 19, fontWeight: FontWeight.w400))
-                  ],
-                )
-              ],
+                      ),
+                    ),
+                  )
+                ],
+              ),
             ),
             widget.seriesDetails.videos.length > 0
                 ? Container(
@@ -107,7 +137,7 @@ class _SeriesTabsState extends State<SeriesTabs> {
                                                       shape: BoxShape.circle,
                                                       color: movieDetailsStore.currentVideo ==
                                                               widget.seriesDetails.videos.indexOf(e)
-                                                          ? Colors.red
+                                                          ? Theme.of(context).primaryColor
                                                           : Colors.grey,
                                                     ),
                                                   ),

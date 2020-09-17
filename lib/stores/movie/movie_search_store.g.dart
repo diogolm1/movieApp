@@ -9,6 +9,21 @@ part of 'movie_search_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$MovieSearchStore on _MovieSearchStoreBase, Store {
+  final _$titleAtom = Atom(name: '_MovieSearchStoreBase.title');
+
+  @override
+  String get title {
+    _$titleAtom.reportRead();
+    return super.title;
+  }
+
+  @override
+  set title(String value) {
+    _$titleAtom.reportWrite(value, super.title, () {
+      super.title = value;
+    });
+  }
+
   final _$isSearchingAtom = Atom(name: '_MovieSearchStoreBase.isSearching');
 
   @override
@@ -50,8 +65,20 @@ mixin _$MovieSearchStore on _MovieSearchStoreBase, Store {
   }
 
   @override
+  dynamic setTitle(String text) {
+    final _$actionInfo = _$_MovieSearchStoreBaseActionController.startAction(
+        name: '_MovieSearchStoreBase.setTitle');
+    try {
+      return super.setTitle(text);
+    } finally {
+      _$_MovieSearchStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
+title: ${title},
 isSearching: ${isSearching}
     ''';
   }

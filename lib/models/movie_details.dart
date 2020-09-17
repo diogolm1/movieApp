@@ -1,3 +1,4 @@
+import 'package:movie_app/models/actor.dart';
 import 'package:movie_app/models/genre.dart';
 import 'package:movie_app/models/image.dart';
 import 'package:movie_app/models/video.dart';
@@ -19,6 +20,7 @@ class MovieDetails {
   List<Image> backdrops;
   List<Image> posters;
   List<Video> videos;
+  List<Actor> actors;
 
   MovieDetails(
       this.id,
@@ -36,7 +38,8 @@ class MovieDetails {
       this.voteCount,
       this.backdrops,
       this.posters,
-      this.videos);
+      this.videos,
+      this.actors);
 
   factory MovieDetails.fromJson(dynamic json) {
     return MovieDetails(
@@ -55,7 +58,8 @@ class MovieDetails {
         json['voteCount'] as int,
         List.from(json['images']['backdrops']).map((e) => Image.fromJson(e)).toList(),
         List.from(json['images']['posters']).map((e) => Image.fromJson(e)).toList(),
-        List.from(json['videos']['results']).map((e) => Video.fromJson(e)).toList());
+        List.from(json['videos']['results']).map((e) => Video.fromJson(e)).toList(),
+        List.from(json['credits']['cast']).map((e) => Actor.fromJson(e)).toList());
   }
 
   List<String> getImagePaths() {

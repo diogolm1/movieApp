@@ -4,7 +4,7 @@ class CustomDrawerHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.red,
+      color: Theme.of(context).primaryColor,
       height: 90,
       padding: EdgeInsets.symmetric(horizontal: 20),
       child: Row(
@@ -20,7 +20,16 @@ class CustomDrawerHeader extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [Text("Clique aqui para"), Text("fazer login ou criar sua conta.")],
+                children: [
+                  Text(
+                    "Clique aqui para",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  Text(
+                    "fazer login ou criar sua conta.",
+                    style: TextStyle(color: Colors.white),
+                  )
+                ],
               ),
             ),
           )
