@@ -39,9 +39,7 @@ class _MovieDetailsState extends State<MovieDetailsPage> {
           builder: (context, player) {
             return Scaffold(
                 appBar: AppBar(
-                  title: Text(widget.title),
-                  centerTitle: true,
-                ),
+                    title: Text(widget.title), centerTitle: true, backgroundColor: Theme.of(context).primaryColorDark),
                 body: FutureBuilder(
                   future: MovieRepository.instance.getMovieDetails(widget.movieId),
                   builder: (_, snapshot) {
@@ -82,12 +80,12 @@ class _MovieDetailsState extends State<MovieDetailsPage> {
                                 ),
                                 Container(
                                   margin: EdgeInsets.only(top: 15),
-                                  decoration: BoxDecoration(color: Theme.of(context).primaryColor),
+                                  decoration: BoxDecoration(color: Theme.of(context).primaryColorDark),
                                   child: TabBar(
-                                    labelColor: Theme.of(context).primaryColor,
+                                    labelColor: Theme.of(context).primaryColorDark,
                                     unselectedLabelColor: Colors.white,
                                     indicatorSize: TabBarIndicatorSize.label,
-                                    indicatorColor: Theme.of(context).primaryColor,
+                                    indicatorColor: Theme.of(context).primaryColorDark,
                                     indicator: BoxDecoration(
                                         borderRadius: BorderRadius.only(
                                             topLeft: Radius.circular(10), topRight: Radius.circular(10)),

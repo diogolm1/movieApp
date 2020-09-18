@@ -3,7 +3,6 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_search_bar/flutter_search_bar.dart';
 import 'package:movie_app/repositories/movieRepository.dart';
 import 'package:movie_app/stores/movie/movie_search_store.dart';
-import 'package:movie_app/widgets/drawer/customDrawer.dart';
 import 'package:movie_app/widgets/customCard.dart';
 
 class MovieSearchPage extends StatefulWidget {
@@ -23,19 +22,24 @@ class _MovieSearchPageState extends State<MovieSearchPage> {
 
   AppBar buildAppBar(BuildContext context) {
     return new AppBar(
-        title: Observer(builder: (_) => Text(movieSearchStore.title)),
-        centerTitle: true,
-        actions: [searchBar.getSearchAction(context)]);
+      title: Text("Filmes"),
+      centerTitle: true,
+      backgroundColor: Theme.of(context).primaryColorDark,
+      actions: [searchBar.getSearchAction(context)],
+    );
   }
 
   _MovieSearchPageState() {
-    searchBar =
-        new SearchBar(inBar: false, setState: setState, onSubmitted: _searchMovie, buildDefaultAppBar: buildAppBar);
+    searchBar = new SearchBar(
+        inBar: false,
+        setState: setState,
+        onSubmitted: _searchMovie,
+        buildDefaultAppBar: buildAppBar,
+        hintText: "Pesquisar");
   }
 
   _searchMovie(String text) async {
     if (text.isEmpty) {
-      movieSearchStore.setTitle("Pesquise um filme");
       return getPopularMovies();
     }
     movieSearchStore.setTitle(text);
@@ -61,7 +65,7 @@ class _MovieSearchPageState extends State<MovieSearchPage> {
         );
     return new Scaffold(
       appBar: searchBar.build(context),
-      drawer: CustomDrawer(),
+      // drawer: CustomDrawer(),
       body: Stack(
         children: [
           _buildBodyBack(),
@@ -74,13 +78,23 @@ class _MovieSearchPageState extends State<MovieSearchPage> {
                             valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                           ),
                         )
-                      : ListView.builder(
-                          itemCount: movieSearchStore.movies.length,
-                          itemBuilder: (context, index) {
-                            return CustomCard(
-                              cardInfos: movieSearchStore.movies[index],
-                            );
-                          }));
+                      : (movieSearchStore.movies.length > 0
+                          ? ListView.builder(
+                              itemCount: movieSearchStore.movies.length,
+                              itemBuilder: (context, index) {
+                                return CustomCard(
+                                  cardInfos: movieSearchStore.movies[index],
+                                );
+                              })
+                          : Container(
+                              margin: EdgeInsets.only(top: 15),
+                              child: Center(
+                                child: Text(
+                                  "Nenhum resultado encontrado para \"${movieSearchStore.title}\"",
+                                  style: TextStyle(color: Colors.white),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ))));
             },
           )
         ],

@@ -5,7 +5,7 @@ class PageStore = _PageStoreBase with _$PageStore;
 
 abstract class _PageStoreBase with Store {
   @observable
-  int page = 0;
+  int page = 1;
 
   @action
   void setPage(int value) => page = value;
