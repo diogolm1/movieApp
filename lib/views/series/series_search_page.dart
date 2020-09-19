@@ -3,7 +3,6 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_search_bar/flutter_search_bar.dart';
 import 'package:movie_app/repositories/seriesRepository.dart';
 import 'package:movie_app/stores/series/series_search_store.dart';
-import 'package:movie_app/widgets/drawer/customDrawer.dart';
 import 'package:movie_app/widgets/customCard.dart';
 
 class SeriesSearchPage extends StatefulWidget {
